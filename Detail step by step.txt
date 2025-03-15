@@ -1,0 +1,54 @@
+Detail step by step:
+
+Step-1 VPC: A default Virtual Private Cloud (VPC) to manage networking.
+Step-2 Subnets & Availability Zones: Two subnets in different Availability Zones (AZs) for high availability.
+Step-3 EC2 Instances: Two EC2 instances deployed in separate subnets.
+
+
+Security Groups:
+One SG for EC2 instances, allowing HTTP traffic.
+One SG for EFS, permitting access from the EC2 instances.
+EFS Storage: A shared file system mounted on both EC2 instances to store website content.
+
+
+Website Hosting: A web application or static website served from the EC2 instances.
+
+Implementation Steps:
+Create a VPC and configure subnets in different availability zones.
+Set up two Security Groups:
+One for EC2 instances (allowing SSH, HTTP, HTTPS).
+One for EFS (allowing NFS access from EC2 SG).
+Launch two EC2 instances in separate subnets within the VPC.
+Create an EFS file system and mount it on both EC2 instances.
+Deploy website files on EFS to be accessed by both EC2 instances.
+Test website availability from public internet access.
+
+Expected Outcome:
+A highly available and scalable website hosted on EC2 instances with shared EFS storage, ensuring redundancy 
+and seamless file synchronization across availability zones.
+Create 2 SG
+
+1- Web-SG TCP /22/80
+2- EFS-SG TCP NFS
+
+Azone 1a
+Azone 1b
+
+Create efs add sg EFS-SG
+
+add Azone 
+
+Azone 1a
+Azone 1b
+
+#yum install -y amazon-efs-utils
+
+
+
+sudo mount -t efs -o tls fs-0dc59d8a2c3fd6945:/ /var/www/html
+
+
+sudo mount -t efs -o tls fs-0da00e10565710947:/ /var/www/html
+
+#mount -t efs -o tls fs-0b8c39b5ae9706987:/ /var/www/html
+#ls
